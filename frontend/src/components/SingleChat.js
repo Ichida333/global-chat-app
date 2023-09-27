@@ -10,14 +10,15 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 
-// import Lottie from "react-lottie";
+
 // import animationData from "../animations/typing.json";
 
-// import io from "socket.io-client";
+ import io from "socket.io-client";
 // import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
-// const ENDPOINT = "http://localhost:5000"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
-// var socket, selectedChatCompare;
+ const ENDPOINT = "https://global-chat-app-br83.onrender.com/"; 
+ // "https://talk-a-tive.herokuapp.com"; -> After deployment
+ var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
@@ -58,7 +59,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       setMessages(data);
       setLoading(false);
 
-      // socket.emit("join chat", selectedChat._id);
+       socket.emit("join chat", selectedChat._id);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -90,7 +91,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
           config
         );
-        // socket.emit("new message", data);
+         socket.emit("new message", data);
         setMessages([...messages, data]);
       } catch (error) {
         toast({
@@ -106,9 +107,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   useEffect(() => {
-    // socket = io(ENDPOINT);
-    // socket.emit("setup", user);
-    // socket.on("connected", () => setSocketConnected(true));
+     socket = io(ENDPOINT);
+     socket.emit("setup", user);
+     socket.on("connected", () => setSocketConnected(true));
     // socket.on("typing", () => setIsTyping(true));
     // socket.on("stop typing", () => setIsTyping(false));
 
@@ -119,25 +120,26 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     fetchMessages();
 
 
-    // selectedChatCompare = selectedChat;
+     selectedChatCompare = selectedChat;
     // eslint-disable-next-line
   }, [selectedChat]);
 
-  // useEffect(() => {
-  //   socket.on("message recieved", (newMessageRecieved) => {
-  //     if (
-  //       !selectedChatCompare || // if chat is not selected or doesn't match current chat
-  //       selectedChatCompare._id !== newMessageRecieved.chat._id
-  //     ) {
+   useEffect(() => {
+     socket.on("message recieved", (newMessageRecieved) => {
+       if (
+         !selectedChatCompare || // if chat is not selected or doesn't match current chat
+         selectedChatCompare._id !== newMessageRecieved.chat._id
+       ) {
   //       if (!notification.includes(newMessageRecieved)) {
   //         setNotification([newMessageRecieved, ...notification]);
   //         setFetchAgain(!fetchAgain);
   //       }
-  //     } else {
-  //       setMessages([...messages, newMessageRecieved]);
-  //     }
-  //   });
-  // });
+       } else {
+         
+         setMessages([...messages, newMessageRecieved]);
+       }
+     });
+   });
 
    const typingHandler = (e) => {
     setNewMessage(e.target.value);
