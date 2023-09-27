@@ -23,13 +23,13 @@ import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { useToast } from "@chakra-ui/toast";
-// import ChatLoading from "../ChatLoading";
+import ChatLoading from "../ChatLoading";
 import { Spinner } from "@chakra-ui/spinner";
 import ProfileModal from "./ProfileModal";
 // import NotificationBadge from "react-notification-badge";
 // import { Effect } from "react-notification-badge";
 // import { getSender } from "../../config/ChatLogics";
-// import UserListItem from "../userAvatar/UserListItem";
+import UserListItem from "../userAvatar/UserListItem";
 import { ChatState } from "../../Context/ChatProvider";
 
 
@@ -59,70 +59,75 @@ const SideDrawer = () => {
   };
 
   const handleSearch = async () => {
-    // if (!search) {
-    //   toast({
-    //     title: "Please Enter something in search",
-    //     status: "warning",
-    //     duration: 5000,
-    //     isClosable: true,
-    //     position: "top-left",
-    //   });
-    //   return;
-    // }
+    if (!search) {
+      toast({
+        title: "Please Enter something in search",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top-left",
+      });
+      return;
+    }
 
-    // try {
-    //   setLoading(true);
+    try {
+      setLoading(true);
 
-    //   const config = {
-    //     headers: {
-    //       Authorization: `Bearer ${user.token}`,
-    //     },
-    //   };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
 
-    //   const { data } = await axios.get(`/api/user?search=${search}`, config);
+      const { data } = await axios.get(`/api/user?search=${search}`, config);
 
-    //   setLoading(false);
-    //   setSearchResult(data);
-    // } catch (error) {
-    //   toast({
-    //     title: "Error Occured!",
-    //     description: "Failed to Load the Search Results",
-    //     status: "error",
-    //     duration: 5000,
-    //     isClosable: true,
-    //     position: "bottom-left",
-    //   });
-    // }
+      setLoading(false);
+      setSearchResult(data);
+      console.log(data)
+      console.log(searchResult)
+      console.log(search);
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: "Failed to Load the Search Results",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
   };
 
 
   const accessChat = async (userId) => {
-    // console.log(userId);
+    console.log(userId);
 
-    // try {
-    //   setLoadingChat(true);
-    //   const config = {
-    //     headers: {
-    //       "Content-type": "application/json",
-    //       Authorization: `Bearer ${user.token}`,
-    //     },
-    //   };
-    //   const { data } = await axios.post(`/api/chat`, { userId }, config);
+    try {
+      setLoadingChat(true);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const { data } = await axios.post(`/api/chat`, { userId }, config);
 
-    //   if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
-    //   setSelectedChat(data);
-    //   setLoadingChat(false);
-    //   onClose();
-    // } catch (error) {
-    //   toast({
-    //     title: "Error fetching the chat",
-    //     description: error.message,
-    //     status: "error",
-    //     duration: 5000,
-    //     isClosable: true,
-    //     position: "bottom-left",
-    //   });
-    // }
+      console.log(data)
+
+      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      setSelectedChat(data);
+      setLoadingChat(false);
+      onClose();
+    } catch (error) {
+      toast({
+        title: "Error fetching the chat",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
   };
 
 
@@ -209,7 +214,7 @@ const SideDrawer = () => {
               />
               <Button onClick={handleSearch}>Go</Button>
             </Box>
-            {/* {loading ? (
+            {loading ? (
               <ChatLoading />
             ) : (
               searchResult?.map((user) => (
@@ -220,7 +225,7 @@ const SideDrawer = () => {
                 />
               ))
             )}
-            {loadingChat && <Spinner ml="auto" d="flex" />} */}
+            {loadingChat && <Spinner ml="auto" display="flex" />}
           </DrawerBody>
         </DrawerContent>
       </Drawer>
