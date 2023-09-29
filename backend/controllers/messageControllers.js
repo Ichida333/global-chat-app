@@ -103,10 +103,9 @@ const sendMessage = asyncHandler(async (req, res) => {
     }
   
 
-  if(chatId.users[0].country === "JP(Japanese)")
-  { 
+  
     content = await translate(content)
-  }
+  
 
 
   
