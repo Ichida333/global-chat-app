@@ -7,6 +7,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { ChatState } from "../../Context/ChatProvider";
+import { Select } from '@chakra-ui/react'
 
 const Signup = () => {
   const [show, setShow] = useState(false);
@@ -20,8 +21,10 @@ const Signup = () => {
   const [email, setEmail] = useState();
   const [confirmpassword, setConfirmpassword] = useState();
   const [password, setPassword] = useState();
+  const [country, setCountry] = useState();
   const [pic, setPic] = useState();
   const [picLoading, setPicLoading] = useState(false);
+  const countries = ['JP(Japan)', 'US(English)', 'KR(Korea)',"FR(France)","DE(Deutschland)"]
 
   const submitHandler = async () => {
     setPicLoading(true);
@@ -46,7 +49,7 @@ const Signup = () => {
       });
       return;
     }
-    console.log(name, email, password, pic);
+    console.log(name, email, password, pic, country);
     try {
       const config = {
         headers: {
@@ -59,6 +62,7 @@ const Signup = () => {
           name,
           email,
           password,
+          country,
           pic,
         },
         config
@@ -181,6 +185,22 @@ const Signup = () => {
           </InputRightElement>
         </InputGroup>
       </FormControl>
+
+      <FormControl id="country" isRequired>
+        <FormLabel>Country</FormLabel>
+        <Select placeholder='Select your Country'
+        onChange={(e) => setCountry(e.target.value)}>
+        <option value={countries[0]}>{countries[0]}</option>
+        <option value={countries[1]}>{countries[1]}</option>
+        <option value={countries[2]}>{countries[2]}</option>
+        <option value={countries[3]}>{countries[3]}</option>
+        <option value={countries[4]}>{countries[4]}</option>
+        <option value={countries[5]}>{countries[5]}</option>
+        <option value={countries[6]}>{countries[6]}</option>
+        <option value={countries[7]}>{countries[7]}</option>
+      </Select>
+      </FormControl>
+      
       <FormControl id="pic">
         <FormLabel>Upload your Picture</FormLabel>
         <Input

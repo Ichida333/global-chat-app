@@ -12,6 +12,7 @@ const userSchema = mongoose.Schema(
       default:
         "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
+    country: { type: "String",enum: ['JP(Japan)', 'US(English)', 'KR(Korea)',"VN(Vietnam)","FR(France)","DE(Deutschland)"], required: true },
     isAdmin: {
       type: Boolean,
       required: true,

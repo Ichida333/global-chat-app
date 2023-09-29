@@ -1,6 +1,13 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const generateToken = require("../config/generateToken");
+const { count } = require("../models/userModel");
+
+
+
+
+
+
 
 //@description     Get or Search all users
 //@route           GET /api/user?search=
@@ -24,9 +31,9 @@ const allUsers = asyncHandler(async (req, res) => {
 //@access          Public
 const registerUser = asyncHandler(async (req, res) => {
   console.log(req.body)
-  const { name, email, password, pic } = req.body;
+  const { name, email, password, pic, country } = req.body;
 
-  if (!name || !email || !password) {
+  if (!name || !email || !password || !country) {
     res.status(400);
     throw new Error("Please Enter all the Feilds");
   }
@@ -43,6 +50,7 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     pic,
+    country,
   });
 
   if (user) {
@@ -52,6 +60,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       pic: user.pic,
+      country: user.country,
       token: generateToken(user._id),
     });
   } else {

@@ -31,6 +31,8 @@ import ProfileModal from "./ProfileModal";
 // import { getSender } from "../../config/ChatLogics";
 import UserListItem from "../userAvatar/UserListItem";
 import { ChatState } from "../../Context/ChatProvider";
+import { Search2Icon } from '@chakra-ui/icons'
+
 
 
 const SideDrawer = () => {
@@ -145,14 +147,14 @@ const SideDrawer = () => {
     >
       <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
         <Button variant="ghost" onClick={onOpen}>
-          <i className="fas fa-search"></i>
+          <Search2Icon className="fas fa-search"></Search2Icon>
           <Text display={{ base: "none", md: "flex" }} px={4}>
             Search User
           </Text>
         </Button>
       </Tooltip>
       <Text fontSize="2xl" fontFamily="Work sans">
-        Talk-A-Tive
+        Global Chat
       </Text>
       <div>
         <Menu>
@@ -161,7 +163,7 @@ const SideDrawer = () => {
               count={notification.length}
               effect={Effect.SCALE}
             /> */}
-            <BellIcon fontSize="2xl" m={1} />
+            {/* <BellIcon fontSize="2xl" m={1} /> */}
             </MenuButton>
             {/* <MenuList pl={2}>
               {!notification.length && "No New Messages"}

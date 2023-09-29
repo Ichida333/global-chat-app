@@ -30,6 +30,14 @@ const UserListItem = ({ user,handleFunction }) => {
         name={user.name}
         src={user.pic}
       />
+      <Avatar
+        mr={2}
+        size="sm"
+        borderRadius="0"
+        
+        
+        src={"https://flagsapi.com/"+user.country[0]+user.country[1]+"/flat/64.png"}    
+      />
       <Box>
         <Text>{user.name}</Text>
         <Text fontSize="xs">

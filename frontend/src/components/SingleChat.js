@@ -11,19 +11,21 @@ import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 
 
-// import animationData from "../animations/typing.json";
+
+
 
  import io from "socket.io-client";
-// import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
+
 import { ChatState } from "../Context/ChatProvider";
  const ENDPOINT = "https://global-chat-app-br83.onrender.com/"; 
- // "https://talk-a-tive.herokuapp.com"; -> After deployment
+ 
  var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
+
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [newMessage, setNewMessage] = useState("");
+  let [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
@@ -75,6 +77,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
       // socket.emit("stop typing", selectedChat._id);
+
       try {
         const config = {
           headers: {
