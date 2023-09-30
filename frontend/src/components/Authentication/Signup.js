@@ -22,13 +22,15 @@ const Signup = () => {
   const [confirmpassword, setConfirmpassword] = useState();
   const [password, setPassword] = useState();
   const [country, setCountry] = useState();
+  const [language, setLanguage] = useState();
   const [pic, setPic] = useState();
   const [picLoading, setPicLoading] = useState(false);
-  const countries = ['JP(Japan)', 'US(English)', 'KR(Korea)',"FR(France)","DE(Deutschland)"]
+  const countries = ['JP', 'US', 'KR',"FR","DE", "VN", "UZ","BD","CN","RU"]
+  const languages = ['ja', 'en', 'ko',"fr","de", "vi", "zh-CN","ru"]
 
   const submitHandler = async () => {
     setPicLoading(true);
-    if (!name || !email || !password || !confirmpassword) {
+    if (!name || !email || !password || !confirmpassword ) {
       toast({
         title: "Please Fill all the Feilds",
         status: "warning",
@@ -49,7 +51,7 @@ const Signup = () => {
       });
       return;
     }
-    console.log(name, email, password, pic, country);
+    console.log(name, email, password, pic, country, language);
     try {
       const config = {
         headers: {
@@ -63,6 +65,7 @@ const Signup = () => {
           email,
           password,
           country,
+          language,
           pic,
         },
         config
@@ -190,14 +193,30 @@ const Signup = () => {
         <FormLabel>Country</FormLabel>
         <Select placeholder='Select your Country'
         onChange={(e) => setCountry(e.target.value)}>
-        <option value={countries[0]}>{countries[0]}</option>
-        <option value={countries[1]}>{countries[1]}</option>
-        <option value={countries[2]}>{countries[2]}</option>
-        <option value={countries[3]}>{countries[3]}</option>
-        <option value={countries[4]}>{countries[4]}</option>
-        <option value={countries[5]}>{countries[5]}</option>
-        <option value={countries[6]}>{countries[6]}</option>
-        <option value={countries[7]}>{countries[7]}</option>
+        <option value={countries[0]}>Japan</option>
+        <option value={countries[1]}>United States</option>
+        <option value={countries[2]}>Korea</option>
+        <option value={countries[3]}>France</option>
+        <option value={countries[4]}>Germany</option>
+        <option value={countries[5]}>Vietnam</option>
+        <option value={countries[6]}>Uzbekistan</option>
+        <option value={countries[7]}>Bangladesh</option>
+      </Select>
+      </FormControl>
+      <FormControl id="language" isRequired>
+        <FormLabel>Language</FormLabel>
+        <Select placeholder='Select your Language'
+        onChange={(e) => setLanguage(e.target.value)}>
+        <option value={languages[0]}>Japanese</option>
+        <option value={languages[1]}>English</option>  
+        <option value={languages[2]}>Korean</option>
+        <option value={languages[3]}>French</option>
+        <option value={languages[4]}>German</option>
+        <option value={languages[5]}>Vietnamese</option>
+        <option value={languages[6]}>Chinese</option>
+        <option value={languages[7]}>Russian</option>
+
+        
       </Select>
       </FormControl>
       

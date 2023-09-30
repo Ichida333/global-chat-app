@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const chatModel = mongoose.Schema(
   {
     chatName: { type: String, trim: true },
+    language: { type: String, enum: ['ja', 'en'], default: "en"},
     isGroupChat: { type: Boolean, default: false },
     users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     latestMessage: {

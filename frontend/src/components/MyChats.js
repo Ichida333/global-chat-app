@@ -70,15 +70,15 @@ const MyChats = ({ fetchAgain }) => {
         alignItems="center"
       >
         My Chats
-        <GroupChatModal>
-          {/* <Button
+        {/* <GroupChatModal>
+          <Button
             display="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}
             rightIcon={<AddIcon />}
           >
             New Group Chat
-          </Button> */}
-        </GroupChatModal>
+          </Button>
+        </GroupChatModal> */}
       </Box>
       <Box
         display="flex"

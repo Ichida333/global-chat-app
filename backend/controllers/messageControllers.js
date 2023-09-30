@@ -95,16 +95,16 @@ const sendMessage = asyncHandler(async (req, res) => {
  
  
 
-  let userCountry = req.body.country.toLowerCase()[3]+req.body.country.toLowerCase()[4]
-  console.log(userCountry)
+  let userLanguage = req.body.language
+  console.log(userLanguage)
   
 
   // console.log(req.body.chatId.users[0].country.toLowerCase()[3]+req.body.chatId.users[0].country.toLowerCase()[4])
   // console.log(req.body.chatId.users[1].country.toLowerCase()[3]+req.body.chatId.users[1].country.toLowerCase()[4])
 
-if(userCountry !== "en"){
+if(userLanguage !== "en"){
   const translate = async (text) => {
-    const result = await trans_api(text, `generalNT_${userCountry}_en`);
+    const result = await trans_api(text, `generalNT_${userLanguage}_en`);
     return result
     }
     content = await translate(content)

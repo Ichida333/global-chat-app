@@ -50,7 +50,7 @@ const ProfileModal = ({ user, children }) => {
             />
             <Image
               boxSize="100px"
-              src={"https://flagsapi.com/"+user.country[0]+user.country[1]+"/flat/64.png"}    
+              src={"https://flagsapi.com/"+user.country+"/flat/64.png"}    
             />
             <Text
               fontSize={{ base: "28px", md: "30px" }}

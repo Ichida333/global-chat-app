@@ -31,9 +31,9 @@ const allUsers = asyncHandler(async (req, res) => {
 //@access          Public
 const registerUser = asyncHandler(async (req, res) => {
   console.log(req.body)
-  const { name, email, password, pic, country } = req.body;
+  const { name, email, password, pic, country, language} = req.body;
 
-  if (!name || !email || !password || !country) {
+  if (!name || !email || !password || !country || !language) {
     res.status(400);
     throw new Error("Please Enter all the Feilds");
   }
@@ -51,6 +51,7 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     pic,
     country,
+    language,
   });
 
   if (user) {
@@ -61,6 +62,7 @@ const registerUser = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
       pic: user.pic,
       country: user.country,
+      language: user.language,
       token: generateToken(user._id),
     });
   } else {
@@ -85,6 +87,7 @@ const authUser = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
       pic: user.pic,
       country: user.country,
+      language: user.language,
       token: generateToken(user._id),
     });
   } else {

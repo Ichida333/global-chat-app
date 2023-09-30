@@ -1,13 +1,16 @@
 import { FormControl } from "@chakra-ui/form-control";
+import { AddIcon } from "@chakra-ui/icons";
 import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
 import "./styles.css";
+import { Button } from "@chakra-ui/react";
 import { IconButton, Spinner, useToast } from "@chakra-ui/react";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
+import LanguageModal from "./miscellaneous/LanguageModal";
 import ScrollableChat from "./ScrollableChat";
 
 
@@ -19,7 +22,7 @@ import ScrollableChat from "./ScrollableChat";
 import { ChatState } from "../Context/ChatProvider";
  const ENDPOINT = "https://global-chat-app-br83.onrender.com/"; 
  
- //"http://localhost:5000"
+ //const ENDPOINT = "http://localhost:5000"
   
  
  var socket, selectedChatCompare;
@@ -78,6 +81,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   const sendMessage = async (event) => {
+    if(event.key.isComposing){
+      return;
+    }
+
     if (event.key === "Enter" && newMessage) {
       // socket.emit("stop typing", selectedChat._id);
 
@@ -92,7 +99,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         const { data } = await axios.post(
           "/api/message",
           {
-            country: user.country,
+            language: user.language,
             content: newMessage,
             chatId: selectedChat,
           },
@@ -192,9 +199,19 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               (!selectedChat.isGroupChat ? (
                 <>
                   {getSender(user, selectedChat.users)}
+                  {/* <LanguageModal>
+          <Button
+            display="flex"
+            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+            rightIcon={<AddIcon />}
+          >
+            Chanege room language
+          </Button>
+        </LanguageModal> */}
                   <ProfileModal
                     user={getSenderFull(user, selectedChat.users)}
                   />
+                  
                 </>
               ) : (
                 <>
@@ -233,7 +250,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             )}
 
             <FormControl
-              onKeyDown={sendMessage}
+              onKeyPress={sendMessage}
               id="first-name"
               isRequired
               mt={3}

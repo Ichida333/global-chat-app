@@ -36,7 +36,7 @@ const UserListItem = ({ user,handleFunction }) => {
         borderRadius="0"
         
         
-        src={"https://flagsapi.com/"+user.country[0]+user.country[1]+"/flat/64.png"}    
+        src={"https://flagsapi.com/"+user.country+"/flat/64.png"}    
       />
       <Box>
         <Text>{user.name}</Text>
