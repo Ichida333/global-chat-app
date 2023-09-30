@@ -19,6 +19,9 @@ import ScrollableChat from "./ScrollableChat";
 import { ChatState } from "../Context/ChatProvider";
  const ENDPOINT = "https://global-chat-app-br83.onrender.com/"; 
  
+ //"http://localhost:5000"
+  
+ 
  var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -89,6 +92,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         const { data } = await axios.post(
           "/api/message",
           {
+            country: user.country,
             content: newMessage,
             chatId: selectedChat,
           },
