@@ -1,5 +1,5 @@
 import { FormControl } from "@chakra-ui/form-control";
-import { AddIcon } from "@chakra-ui/icons";
+
 import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
 import "./styles.css";
@@ -33,8 +33,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [loading, setLoading] = useState(false);
   let [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
-  const [typing, setTyping] = useState(false);
-  const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
 
   // const defaultOptions = {
@@ -199,15 +197,16 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               (!selectedChat.isGroupChat ? (
                 <>
                   {getSender(user, selectedChat.users)}
-                  {/* <LanguageModal>
-          <Button
-            display="flex"
-            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-            rightIcon={<AddIcon />}
-          >
-            Chanege room language
-          </Button>
-        </LanguageModal> */}
+                  <LanguageModal
+                  selectedChat={selectedChat}>
+                  <Button
+                    display="flex"
+                    fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+                  >
+                    {selectedChat.language == "en"?<Text>English</Text>: 
+                    <Text>Japanese</Text>}
+                  </Button>
+                  </LanguageModal>  
                   <ProfileModal
                     user={getSenderFull(user, selectedChat.users)}
                   />

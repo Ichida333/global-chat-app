@@ -1,4 +1,3 @@
-import { ViewIcon } from "@chakra-ui/icons";
 import {
   Modal,
   ModalOverlay,
@@ -9,17 +8,77 @@ import {
   ModalCloseButton,
   Button,
   useDisclosure,
-  IconButton,
-  Text,
-  Image,
   Box,
-  Input,
-  FormControl,
-
+  FormControl, 
+  useToast,
+  FormLabel
 } from "@chakra-ui/react";
+import { useState } from "react";
+import { Select } from '@chakra-ui/react'
+import { ChatState } from "../../Context/ChatProvider";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
-const LanguageModal = ({ user, children }) => {
+
+const LanguageModal = ({ children }) => {
+  const history = useHistory();
+  const { selectedChat, setChats, user, chats,setSelectedChat} = ChatState();
+  const [language, setLanguage] = useState();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+  const handleSubmit = async () => {
+    if (!language || !selectedChat) {
+      toast({
+        title: "Please choose the language",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
+
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const { data } = await axios.post(
+        `/api/chat/language`,
+        {
+          chatId: selectedChat._id,
+          language: language,
+        },
+        config
+      );
+      setChats([data]);
+      setSelectedChat(data);
+      onClose();
+      
+      console.log(selectedChat)
+      console.log(data)
+ 
+      toast({
+        title: "Chenged the language!",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+
+    } catch (error) {
+      toast({
+        title: "Failed to change!",
+        description: error.response.data,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
 
   return (
     
@@ -30,30 +89,26 @@ const LanguageModal = ({ user, children }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader
-            fontSize="35px"
+            fontSize="25px"
             fontFamily="Work sans"
             display="flex"
             justifyContent="center"
           >
-            Create Group Chat
+            Change the room language
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody display="flex" flexDir="column" alignItems="center">
-            <FormControl>
-              <Input
-                placeholder="Chat Name"
-                mb={3}
-                // onChange={(e) => setGroupChatName(e.target.value)}
-              />
-            </FormControl>
-            <FormControl>
-              <Input
-                placeholder="Add Users eg: John, Piyush, Jane"
-                mb={1}
-                // onChange={(e) => handleSearch(e.target.value)}
-              />
-            </FormControl>
-            <Box w="100%" d="flex" flexWrap="wrap">
+          <FormControl id="language" isRequired>
+   
+  
+        <Select placeholder='Choose the Language'
+        onChange={(e) => setLanguage(e.target.value)}>
+        <option value="en">English</option>
+        <option value="ja">Japanese</option>
+        
+      </Select>
+      </FormControl>
+            <Box w="100%" display="flex" flexWrap="wrap">
               {/* {selectedUsers.map((u) => (
                 <UserBadgeItem
                   key={u._id}
@@ -66,9 +121,9 @@ const LanguageModal = ({ user, children }) => {
           </ModalBody>
           <ModalFooter>
             <Button 
-            // onClick={handleSubmit} colorScheme="blue"
+             onClick={handleSubmit} colorScheme="blue"
             >
-              Create Chat
+              Change
             </Button>
           </ModalFooter>
         </ModalContent>

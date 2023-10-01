@@ -34,6 +34,7 @@ const accessChat = asyncHandler(async (req, res) => {
     var chatData = {
       chatName: "sender",
       isGroupChat: false,
+      country: "en",
       users: [req.user._id, userId],
     };
 
@@ -193,6 +194,30 @@ const addToGroup = asyncHandler(async (req, res) => {
   }
 });
 
+const changeChatLanguage = asyncHandler(async (req, res) => {
+  const { chatId, language } = req.body;
+
+  const updatedChatLanugage = await Chat.findByIdAndUpdate(
+    chatId,
+    {
+      language: language,
+    },
+    {
+      new: true,
+    }
+  )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+
+  if (!updatedChatLanugage) {
+    res.status(404);
+    throw new Error("Chat Not Found");
+  } else {
+    res.json(updatedChatLanugage);
+  }
+});
+
+
 
 
 module.exports = {
@@ -202,4 +227,5 @@ module.exports = {
   renameGroup,
   addToGroup,
   removeFromGroup,
+  changeChatLanguage,
 };
