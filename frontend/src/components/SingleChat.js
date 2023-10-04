@@ -20,7 +20,7 @@ import ScrollableChat from "./ScrollableChat";
  import io from "socket.io-client";
 
 import { ChatState } from "../Context/ChatProvider";
- const ENDPOINT = "https://global-chat-app-br83.onrender.com/"; 
+ const ENDPOINT = "https://global-chat-app-00hm.onrender.com/"; 
  
  //const ENDPOINT = "http://localhost:5000"
   
@@ -79,12 +79,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   const sendMessage = async (event) => {
-    if(event.key.isComposing){
-      return;
-    }
+    
+
+
 
     if (event.key === "Enter" && newMessage) {
       // socket.emit("stop typing", selectedChat._id);
+      setLoading(true);
 
       try {
         const config = {
@@ -105,6 +106,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
          socket.emit("new message", data);
         setMessages([...messages, data]);
+        setLoading(false)
       } catch (error) {
         toast({
           title: "Error Occured!",
@@ -114,6 +116,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           isClosable: true,
           position: "bottom",
         });
+        setLoading(false);
       }
     }
   };
