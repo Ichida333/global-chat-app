@@ -14,6 +14,7 @@ import {
   Drawer,
   DrawerBody,
   DrawerContent,
+  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
 } from "@chakra-ui/modal";
@@ -144,9 +145,12 @@ const SideDrawer = () => {
       justifyContent="space-between"
       alignItems="center"
       bg="white"
-      w="100%"
-      m="5px"
-      p="10px"
+      w="99%"
+      
+      
+      borderRadius="lg"
+      
+      
       
     
     >
@@ -163,8 +167,8 @@ const SideDrawer = () => {
         </Button>
       </Tooltip>
       <Image
-      htmlHeight="250px"
-      htmlWidth="250px"
+      htmlHeight="100px"
+      htmlWidth="150px"
      
         
          src={logo}/>
@@ -246,6 +250,9 @@ const SideDrawer = () => {
             )}
             {loadingChat && <Spinner ml="auto" display="flex" />}
           </DrawerBody>
+          <DrawerFooter>
+            <Button onClick={onClose}>Close</Button>
+          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>

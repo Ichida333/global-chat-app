@@ -34,7 +34,7 @@ const ProfileModal = ({ user, children }) => {
           >
             {user.name}
           </ModalHeader>
-          <ModalCloseButton />
+       
           <ModalBody
             display="flex"
             flexDir="column"
