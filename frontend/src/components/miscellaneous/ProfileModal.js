@@ -10,7 +10,6 @@ import {
   Button,
   useDisclosure,
   IconButton,
-  Text,
   Image,
 } from "@chakra-ui/react";
 
@@ -26,7 +25,7 @@ const ProfileModal = ({ user, children }) => {
       )}
       <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
-        <ModalContent h="410px" backgroundColor="#F8F8F8">
+        <ModalContent h="420px" backgroundColor="#F8F8F8">
           <ModalHeader
             fontSize="40px"
             fontFamily="Work sans"
@@ -52,12 +51,7 @@ const ProfileModal = ({ user, children }) => {
               boxSize="100px"
               src={"https://flagsapi.com/"+user.country+"/flat/64.png"}    
             />
-            <Text
-              fontSize={{ base: "28px", md: "30px" }}
-              fontFamily="Work sans"
-            >
-              Email: {user.email}
-            </Text>
+            
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>

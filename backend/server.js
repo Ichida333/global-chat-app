@@ -5,8 +5,8 @@ const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const path = require("path");
-const { Socket } = require("dgram");
-const { log } = require("console");
+
+
 
 dotenv.config();
 connectDB();
@@ -74,9 +74,7 @@ io.on("connection", (socket) => {
    if(!chat.users) return console.log("chat.users not defined");
 
    chat.users.forEach((user) => {
-    //  console.log(user)
    
-    //  console.log(newMessageRecieved)
     if (user._id == newMessageRecieved.sender._id) return;
    
 

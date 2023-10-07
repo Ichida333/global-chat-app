@@ -57,6 +57,7 @@ const SideDrawer = () => {
 
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
+    setSelectedChat("")
     history.push("/");
   };
 
@@ -80,14 +81,13 @@ const SideDrawer = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
+      
 
       const { data } = await axios.get(`/api/user?search=${search}`, config);
 
       setLoading(false);
       setSearchResult(data);
-      console.log(data)
-      console.log(searchResult)
-      console.log(search);
+    
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -102,7 +102,7 @@ const SideDrawer = () => {
 
 
   const accessChat = async (userId) => {
-    console.log(userId);
+
 
     try {
       setLoadingChat(true);
@@ -114,9 +114,10 @@ const SideDrawer = () => {
       };
       const { data } = await axios.post(`/api/chat`, { userId }, config);
 
-      console.log(data)
+     
 
-      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      if (!chats.find((c) => c._id === data._id)) 
+      setChats([data, ...chats]);
       setSelectedChat(data);
       setLoadingChat(false);
       onClose();
@@ -142,18 +143,25 @@ const SideDrawer = () => {
       alignItems="center"
       bg="white"
       w="100%"
-      p="5px 10px 5px 10px"
-      borderWidth="5px"
+      m="5px"
+      p="10px"
+      
+    
     >
       <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-        <Button variant="ghost" onClick={onOpen}>
+        <Button variant="ghost" 
+       
+        onClick={onOpen}>
           <Search2Icon className="fas fa-search"></Search2Icon>
           <Text display={{ base: "none", md: "flex" }} px={4}>
-            Search User
+            <Text
+            >Search User</Text>
+            
           </Text>
         </Button>
       </Tooltip>
-      <Text fontSize="2xl" fontFamily="Work sans">
+      <Text fontSize="2xl" fontFamily="Work sans"
+      fontWeight="bold">
         Global Chat
       </Text>
       <div>
@@ -183,7 +191,7 @@ const SideDrawer = () => {
             </MenuList> */}
           </Menu>
           <Menu>
-            <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>
+            <MenuButton as={Button}  rightIcon={<ChevronDownIcon />}>
               <Avatar
                 size="sm"
                 cursor="pointer"
@@ -204,11 +212,14 @@ const SideDrawer = () => {
 
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent
+     
+        >
           <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
           <DrawerBody>
             <Box display="flex" pb={2}>
               <Input
+              bg="white"
                 placeholder="Search by name or email"
                 mr={2}
                 value={search}

@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const generateToken = require("../config/generateToken");
-const { count } = require("../models/userModel");
+
 
 
 
@@ -21,8 +21,10 @@ const allUsers = asyncHandler(async (req, res) => {
         ],
       }
     : {};
-    // console.log(keyword)
-  const users = await User.find(keyword);
+  //console.log(req.user._id)
+  
+  const users = await User.find(keyword)
+  .find({ _id: { $ne: req.user._id}})
   res.send(users);
 });
 
@@ -30,7 +32,7 @@ const allUsers = asyncHandler(async (req, res) => {
 //@route           POST /api/user/
 //@access          Public
 const registerUser = asyncHandler(async (req, res) => {
-  console.log(req.body)
+
   const { name, email, password, pic, country, language} = req.body;
 
   if (!name || !email || !password || !country || !language) {

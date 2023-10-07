@@ -5,19 +5,13 @@ import { Box, Text } from "@chakra-ui/layout";
 import "./styles.css";
 import { Button } from "@chakra-ui/react";
 import { IconButton, Spinner, useToast } from "@chakra-ui/react";
-import { getSender, getSenderFull } from "../config/ChatLogics";
+import { getSender, getSenderFull, getSenderName } from "../config/ChatLogics";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
-import LanguageModal from "./miscellaneous/LanguageModal";
 import ScrollableChat from "./ScrollableChat";
-
-
-
-
-
- import io from "socket.io-client";
+import io from "socket.io-client";
 
 import { ChatState } from "../Context/ChatProvider";
  const ENDPOINT = "https://global-chat-app-00hm.onrender.com/"; 
@@ -35,14 +29,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const toast = useToast();
 
-  // const defaultOptions = {
-  //   loop: true,
-  //   autoplay: true,
-  //   animationData: animationData,
-  //   rendererSettings: {
-  //     preserveAspectRatio: "xMidYMid slice",
-  //   },
-  // };
   const { selectedChat, setSelectedChat, user, notification, setNotification } =
     ChatState();
 
@@ -84,7 +70,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
 
     if (event.key === "Enter" && newMessage) {
-      // socket.emit("stop typing", selectedChat._id);
       setLoading(true);
 
       try {
@@ -125,10 +110,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
      socket = io(ENDPOINT);
      socket.emit("setup", user);
      socket.on("connected", () => setSocketConnected(true));
-    // socket.on("typing", () => setIsTyping(true));
-    // socket.on("stop typing", () => setIsTyping(false));
-
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -136,7 +117,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
 
      selectedChatCompare = selectedChat;
-    // eslint-disable-next-line
+  
   }, [selectedChat]);
 
    useEffect(() => {
@@ -192,39 +173,23 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             alignItems="center"
           >
             <IconButton
-              display={{ base: "flex", md: "none" }}
+              display="flex"
               icon={<ArrowBackIcon />}
               onClick={() => setSelectedChat("")}
             />
             {messages &&
-              (!selectedChat.isGroupChat ? (
+               (
                 <>
-                  {getSender(user, selectedChat.users)}
-                  <LanguageModal
-                  selectedChat={selectedChat}>
-                  <Button
-                    display="flex"
-                    fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-                  >
-                    {selectedChat.language == "en"?<Text>English</Text>: 
-                    <Text>Japanese</Text>}
-                  </Button>
-                  </LanguageModal>  
+                  {getSenderName(user, selectedChat.users)}
+           
                   <ProfileModal
                     user={getSenderFull(user, selectedChat.users)}
                   />
                   
                 </>
-              ) : (
-                <>
-                  {selectedChat.chatName.toUpperCase()}
-                  {/* <UpdateGroupChatModal
-                    fetchMessages={fetchMessages}
-                    fetchAgain={fetchAgain}
-                    setFetchAgain={setFetchAgain}
-                  /> */}
-                </>
-              ))}
+              
+                
+              )}
           </Text>
           <Box
             display="flex"

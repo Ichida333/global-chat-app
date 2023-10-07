@@ -1,13 +1,13 @@
+import { Avatar } from "@chakra-ui/avatar";
 
 
-import { AddIcon } from "@chakra-ui/icons";
 import { Box, Stack, Text } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { getSender } from "../config/ChatLogics";
+import { getSenderName, getSenderPic ,getSender} from "../config/ChatLogics";
 import ChatLoading from "./ChatLoading";
-import GroupChatModal from "./miscellaneous/GroupChatModal";
+
 import { Button } from "@chakra-ui/react";
 import { ChatState } from "../Context/ChatProvider";
 
@@ -69,16 +69,9 @@ const MyChats = ({ fetchAgain }) => {
         justifyContent="space-between"
         alignItems="center"
       >
-        My Chats
-        {/* <GroupChatModal>
-          <Button
-            display="flex"
-            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-            rightIcon={<AddIcon />}
-          >
-            New Group Chat
-          </Button>
-        </GroupChatModal> */}
+        <Text
+        color="black"
+        >  My Chats</Text>
       </Box>
       <Box
         display="flex"
@@ -102,20 +95,37 @@ const MyChats = ({ fetchAgain }) => {
                 py={2}
                 borderRadius="lg"
                 key={chat._id}
+                display="flex"
               >
-                <Text>
-                  {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
-                </Text>
-                {/* {chat.latestMessage && (
+                <Avatar
+              mr={2}
+              size="md"
+              cursor="pointer"
+              src={getSenderPic(loggedUser, chat.users)}
+            />
+      
+            {/* <Avatar
+        mr={2}
+        size="md"
+        borderRadius="0" 
+        src={"https://flagsapi.com/"+getSender(loggedUser, chat.users).country+"/flat/64.png"}    
+      /> */}
+                <Box>
+                
+                  {
+                    getSenderName(loggedUser, chat.users)}
+             
+                {chat.latestMessage && (
                   <Text fontSize="xs">
-                    <b>{chat.latestMessage.sender.name} : </b>
-                    {chat.latestMessage.content.length > 50
+                    <b>
+                      {chat.latestMessage.content.length > 50
                       ? chat.latestMessage.content.substring(0, 51) + "..."
                       : chat.latestMessage.content}
-                  </Text> */}
-                {/* )} */}
+                       </b>
+                   
+                  </Text> 
+                 )}
+                 </Box>
               </Box>
             ))}
           </Stack>
