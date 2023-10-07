@@ -9,6 +9,7 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/menu";
+import { Image } from '@chakra-ui/react'
 import {
   Drawer,
   DrawerBody,
@@ -32,6 +33,7 @@ import ProfileModal from "./ProfileModal";
 import UserListItem from "../userAvatar/UserListItem";
 import { ChatState } from "../../Context/ChatProvider";
 import { Search2Icon } from '@chakra-ui/icons'
+import logo from "../../assets/logo.png"
 
 
 
@@ -160,10 +162,12 @@ const SideDrawer = () => {
           </Text>
         </Button>
       </Tooltip>
-      <Text fontSize="2xl" fontFamily="Work sans"
-      fontWeight="bold">
-        Global Chat
-      </Text>
+      <Image
+      htmlHeight="250px"
+      htmlWidth="250px"
+     
+        
+         src={logo}/>
       <div>
         <Menu>
           <MenuButton p={1}>
@@ -204,7 +208,9 @@ const SideDrawer = () => {
                 <MenuItem>My Profile</MenuItem>{" "}
               </ProfileModal>
               <MenuDivider />
-              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+              <MenuItem
+              color="red"
+               onClick={logoutHandler}>Logout</MenuItem>
             </MenuList>
           </Menu>
         </div>

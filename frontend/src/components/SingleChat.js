@@ -5,7 +5,7 @@ import { Box, Text } from "@chakra-ui/layout";
 import "./styles.css";
 import { Button } from "@chakra-ui/react";
 import { IconButton, Spinner, useToast } from "@chakra-ui/react";
-import { getSender, getSenderFull, getSenderName } from "../config/ChatLogics";
+import {getSenderFull, getSenderName } from "../config/ChatLogics";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ArrowBackIcon } from "@chakra-ui/icons";
