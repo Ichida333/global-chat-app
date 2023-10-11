@@ -33,7 +33,7 @@ const MyChats = ({ fetchAgain }) => {
     } catch (error) {
       toast({
         title: "Error Occured!",
-        description: "Failed to Load the chats",
+        description: " Failed to Load the chats",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -114,14 +114,13 @@ const MyChats = ({ fetchAgain }) => {
                 
                   {
                     getSenderName(loggedUser, chat.users)}
-             
                 {chat.latestMessage && (
                   <Text fontSize="xs">
-                    <b>
+                    <b>{chat.latestMessage.sender.name} : </b>
                       {chat.latestMessage.content.length > 50
                       ? chat.latestMessage.content.substring(0, 51) + "..."
                       : chat.latestMessage.content}
-                       </b>
+                      
                    
                   </Text> 
                  )}

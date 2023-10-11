@@ -80,8 +80,8 @@ const changeChatLanguage = asyncHandler(async (req, res) => {
       new: true,
     }
   )
-    .populate("users", "-password")
-    .populate("groupAdmin", "-password");
+     .populate("users", "-password")
+ 
 
   if (!updatedChatLanugage) {
     res.status(404);
@@ -90,9 +90,6 @@ const changeChatLanguage = asyncHandler(async (req, res) => {
     res.json(updatedChatLanugage);
   }
 });
-
-
-
 
 module.exports = {
   accessChat,

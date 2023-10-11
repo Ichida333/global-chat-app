@@ -12,10 +12,12 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client";
+import LanguageModal from "./miscellaneous/LanguageModal";
 
 import { ChatState } from "../Context/ChatProvider";
+//本番用
  const ENDPOINT = "https://global-chat-app-00hm.onrender.com/"; 
- 
+ //開発用
  //const ENDPOINT = "http://localhost:5000"
   
  
@@ -55,7 +57,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     } catch (error) {
       toast({
         title: "Error Occured!",
-        description: "Failed to Load the Messages",
+        description: " to Load the Messages",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -113,11 +115,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   }, []);
 
   useEffect(() => {
-    fetchMessages();
-
+     fetchMessages();
 
      selectedChatCompare = selectedChat;
-  
+     console.log(notification)
   }, [selectedChat]);
 
    useEffect(() => {
@@ -126,10 +127,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
          !selectedChatCompare || // if chat is not selected or doesn't match current chat
          selectedChatCompare._id !== newMessageRecieved.chat._id
        ) {
-  //       if (!notification.includes(newMessageRecieved)) {
-  //         setNotification([newMessageRecieved, ...notification]);
-  //         setFetchAgain(!fetchAgain);
-  //       }
+         if (!notification.includes(newMessageRecieved)) {
+           setNotification([newMessageRecieved, ...notification]);
+          setFetchAgain(!fetchAgain);
+         }
        } else {
          
          setMessages([...messages, newMessageRecieved]);
@@ -140,22 +141,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
    const typingHandler = (e) => {
     setNewMessage(e.target.value);
 
-  //   if (!socketConnected) return;
 
-  //   if (!typing) {
-  //     setTyping(true);
-  //     socket.emit("typing", selectedChat._id);
-  //   }
-  //   let lastTypingTime = new Date().getTime();
-  //   var timerLength = 3000;
-  //   setTimeout(() => {
-  //     var timeNow = new Date().getTime();
-  //     var timeDiff = timeNow - lastTypingTime;
-  //     if (timeDiff >= timerLength && typing) {
-  //       socket.emit("stop typing", selectedChat._id);
-  //       setTyping(false);
-  //     }
-  //   }, timerLength);
+
   };
 
   return (
@@ -181,6 +168,18 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                (
                 <>
                   {getSenderName(user, selectedChat.users)}
+                  <LanguageModal
+                 
+                  fetchAgain={fetchAgain}
+                  setFetchAgain={setFetchAgain}>
+                  <Button
+                    display="flex"
+                    fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+                  >
+                    {selectedChat.language == "en"?<Text>English</Text>: 
+                    <Text>Japanese</Text>}
+                  </Button>
+                  </LanguageModal>  
            
                   <ProfileModal
                     user={getSenderFull(user, selectedChat.users)}

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
+
 const userSchema = mongoose.Schema(
   {
     name: { type: "String", required: true },
@@ -14,11 +15,6 @@ const userSchema = mongoose.Schema(
     },
     country: { type: "String",enum: ['JP', 'US', 'KR',"FR","DE", "VN", "UZ","BD"], required: true },
     language: { type: "String",enum: ['ja', 'en', 'ko',"fr","de", "vi", "zh-CN","ru"],required: true },
-    isAdmin: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
   },
   { timestaps: true }
 );
@@ -36,6 +32,11 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
+
+
 const User = mongoose.model("User", userSchema);
 
+
+
 module.exports = User;
+

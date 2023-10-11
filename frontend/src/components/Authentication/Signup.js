@@ -30,7 +30,7 @@ const Signup = () => {
 
   const submitHandler = async () => {
     setPicLoading(true);
-    if (!name || !email || !password || !confirmpassword ) {
+    if (!name || !email || !password || !confirmpassword || !country || !language) {
       toast({
         title: "Please Fill all the Feilds",
         status: "warning",

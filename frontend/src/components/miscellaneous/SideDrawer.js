@@ -30,7 +30,7 @@ import { Spinner } from "@chakra-ui/spinner";
 import ProfileModal from "./ProfileModal";
 // import NotificationBadge from "react-notification-badge";
 // import { Effect } from "react-notification-badge";
-// import { getSender } from "../../config/ChatLogics";
+ import { getSenderName } from "../../config/ChatLogics";
 import UserListItem from "../userAvatar/UserListItem";
 import { ChatState } from "../../Context/ChatProvider";
 import { Search2Icon } from '@chakra-ui/icons'
@@ -78,6 +78,7 @@ const SideDrawer = () => {
 
     try {
       setLoading(true);
+      console.log("1")
 
       const config = {
         headers: {
@@ -94,7 +95,7 @@ const SideDrawer = () => {
     } catch (error) {
       toast({
         title: "Error Occured!",
-        description: "Failed to Load the Search Results",
+        description: "Failed to load the Search Results",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -146,13 +147,7 @@ const SideDrawer = () => {
       alignItems="center"
       bg="white"
       w="99%"
-      
-      
-      borderRadius="lg"
-      
-      
-      
-    
+      borderRadius="lg"  
     >
       <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
         <Button variant="ghost" 
@@ -174,29 +169,24 @@ const SideDrawer = () => {
          src={logo}/>
       <div>
         <Menu>
-          <MenuButton p={1}>
-            {/* <NotificationBadge
-              count={notification.length}
-              effect={Effect.SCALE}
-            /> */}
-            {/* <BellIcon fontSize="2xl" m={1} /> */}
-            </MenuButton>
-            {/* <MenuList pl={2}>
+          <MenuButton p={1}>     
+             {notification.length? <BellIcon color="red" fontSize="2xl" m={1} /> : <BellIcon fontSize="2xl" m={1} />}
+          </MenuButton>
+            <MenuList pl={2}>
+             
+
               {!notification.length && "No New Messages"}
-              {notification.map((notif) => (
-                <MenuItem
-                  key={notif._id}
-                  onClick={() => {
-                    setSelectedChat(notif.chat);
-                    setNotification(notification.filter((n) => n !== notif));
-                  }}
-                >
-                  {notif.chat.isGroupChat
-                    ? `New Message in ${notif.chat.chatName}`
-                    : `New Message from ${getSender(user, notif.chat.users)}`}
+              
+              {notification.map((notif) =>(
+                <MenuItem key={notif._id}
+                onClick={()=>{
+                  setSelectedChat(notif.chat);
+                  setNotification(notification.filter((n)=> n !== notif))
+                }}>
+                  New message from  {getSenderName(user, notif.chat.users)}
                 </MenuItem>
               ))}
-            </MenuList> */}
+            </MenuList> 
           </Menu>
           <Menu>
             <MenuButton as={Button}  rightIcon={<ChevronDownIcon />}>

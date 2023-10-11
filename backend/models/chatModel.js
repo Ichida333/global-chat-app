@@ -4,12 +4,13 @@ const chatModel = mongoose.Schema(
   {
     chatName: { type: String, trim: true },
     language: { type: String, enum: ['ja', 'en'], default: "en"},
-  
+   
     users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     latestMessage: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Message",
     },
+  
    
   },
   { timestamps: true }

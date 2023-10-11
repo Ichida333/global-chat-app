@@ -19,7 +19,7 @@ const Login = () => {
   const history = useHistory();
   const { setUser } = ChatState();
 
-  const submitHandler = async () => {
+  const submitHandler = async (req,res) => {
     setLoading(true);
     if (!email || !password) {
       toast({
@@ -58,6 +58,7 @@ const Login = () => {
       setLoading(false);
       history.push("/chats");
     } catch (error) {
+     
       toast({
         title: "Error Occured!",
         description: error.response.data.message,

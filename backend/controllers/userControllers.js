@@ -1,17 +1,19 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
+const Joi = require("joi");
 const generateToken = require("../config/generateToken");
 
+const validate = (data) => {
+	const schema = Joi.object({
+		name: Joi.string().required().label("name"),
+		email: Joi.string().email().required().label("Email"),
+    password: Joi.string().min(12).required().label("Password"),
+    
+	});
+	return schema.validate(data);
+};
 
 
-
-
-
-
-
-//@description     Get or Search all users
-//@route           GET /api/user?search=
-//@access          Public
 const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
@@ -21,21 +23,19 @@ const allUsers = asyncHandler(async (req, res) => {
         ],
       }
     : {};
-  //console.log(req.user._id)
-  
-  const users = await User.find(keyword)
-  .find({ _id: { $ne: req.user._id}})
+
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
   res.send(users);
 });
 
-//@description     Register new user
-//@route           POST /api/user/
-//@access          Public
+
 const registerUser = asyncHandler(async (req, res) => {
+  const { error } = validate(req.body);
+  if (error)
+			return res.status(400).send({ message: error.details[0].message });
+  const { name, email, password, pic, language, country } = req.body;
 
-  const { name, email, password, pic, country, language} = req.body;
-
-  if (!name || !email || !password || !country || !language) {
+  if (!name || !email || !password || !language|| !country) {
     res.status(400);
     throw new Error("Please Enter all the Feilds");
   }
@@ -52,8 +52,8 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     pic,
-    country,
     language,
+    country
   });
 
   if (user) {
@@ -61,10 +61,9 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
-      pic: user.pic,
       country: user.country,
-      language: user.language,
+      language: user,language,
+      pic: user.pic,
       token: generateToken(user._id),
     });
   } else {
@@ -73,9 +72,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-//@description     Auth the user
-//@route           POST /api/users/login
-//@access          Public
+
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -86,10 +83,9 @@ const authUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
-      pic: user.pic,
       country: user.country,
       language: user.language,
+      pic: user.pic,
       token: generateToken(user._id),
     });
   } else {
