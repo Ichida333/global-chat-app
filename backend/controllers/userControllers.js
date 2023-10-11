@@ -5,7 +5,7 @@ const generateToken = require("../config/generateToken");
 
 const validate = (data) => {
 	const schema = Joi.object({
-		name: Joi.string().required().alphanum().min(6).max(16).label("name"),
+		name: Joi.string().required().max(16).label("name"),
 		email: Joi.string().email().required().label("Email"),
     password: Joi.string().min(8).required().label("Password"),
     country: Joi.string().required().label("country"),
