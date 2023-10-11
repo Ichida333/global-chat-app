@@ -16,9 +16,9 @@ import LanguageModal from "./miscellaneous/LanguageModal";
 
 import { ChatState } from "../Context/ChatProvider";
 //本番用
- const ENDPOINT = "https://global-chat-app-00hm.onrender.com/"; 
+ //const ENDPOINT = "https://global-chat-app-00hm.onrender.com/"; 
  //開発用
- //const ENDPOINT = "http://localhost:5000"
+ const ENDPOINT = "http://localhost:5000"
   
  
  var socket, selectedChatCompare;
